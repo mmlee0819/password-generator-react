@@ -81,7 +81,7 @@ h1 {
   padding: 0 5px;
   line-height: 30px;
   color: #fff;
-  background-color: #61dbfb;
+  background-color: #40b6d5;
   opacity: "0";
   transition: "opacity 1s";
   z-index: 0;
@@ -92,7 +92,7 @@ h1 {
   right: -5px;
   width: 10px;
   height: 10px;
-  background-color: #61dbfb;
+  background-color: #40b6d5;
   transform: rotate(45deg);
   z-index: -1;
 }
