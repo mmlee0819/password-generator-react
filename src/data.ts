@@ -19,3 +19,7 @@ export const initialOptions = [
   { id: "numbers", text: "numbers", isChecked: false, range: numbersList },
   { id: "symbols", text: "symbols", isChecked: false, range: symbolsList },
 ]
+
+export const getRandomNum = (max: number) => {
+  return Math.floor(Math.random() * max)
+}

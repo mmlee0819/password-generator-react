@@ -1,9 +1,8 @@
 import React, { useRef, useState } from "react"
-import { initialOptions } from "./data"
+import { initialOptions, getRandomNum } from "./data"
+import Result from "./components/result"
 import Options from "./components/options"
 import "./App.css"
-import clipboardImg from "./assets/clipboard-blue.png"
-import copyImg from "./assets/copy.png"
 
 export interface OptionType {
   id: string
@@ -15,30 +14,79 @@ export interface OptionType {
 export default function App() {
   const [options, setOptions] = useState<OptionType[]>(initialOptions)
   const [password, setPassword] = useState("")
-  const [showReminder, setShowReminder] = useState("")
-  const pwLength = useRef(null)
+  const [reminder, setReminder] = useState({ status: "", text: "" })
+  const pwLength = useRef<HTMLInputElement>(null)
 
+  const clickGenerate = () => {
+    if (!pwLength?.current?.value) return
+    const selectedOptions = options.filter((item) => item.isChecked)
+    const pwLengthIsNum = Number(pwLength?.current?.value)
+    const newPW: (string | number)[] = []
+    if (selectedOptions.length === 1) {
+      for (let i = 1; i <= pwLengthIsNum; i++) {
+        const randomNum = getRandomNum(selectedOptions[0].range.length)
+        newPW.push(selectedOptions[0].range[randomNum])
+      }
+    }
+    if (selectedOptions.length === 2) {
+      for (let i = 1; i <= pwLengthIsNum; i++) {
+        if (i % 2 === 1) {
+          const randomNum = getRandomNum(selectedOptions[1].range.length)
+          newPW.push(selectedOptions[1].range[randomNum])
+        } else {
+          const randomNum = getRandomNum(selectedOptions[0].range.length)
+          newPW.push(selectedOptions[0].range[randomNum])
+        }
+      }
+    }
+    if (selectedOptions.length === 3) {
+      for (let i = 1; i <= pwLengthIsNum; i++) {
+        if (i % 3 === 1) {
+          const randomNum = getRandomNum(selectedOptions[1].range.length)
+          newPW.push(selectedOptions[1].range[randomNum])
+        } else if (i % 3 === 2) {
+          const randomNum = getRandomNum(selectedOptions[0].range.length)
+          newPW.push(selectedOptions[0].range[randomNum])
+        } else {
+          const randomNum = getRandomNum(selectedOptions[2].range.length)
+          newPW.push(selectedOptions[2].range[randomNum])
+        }
+      }
+    }
+    if (selectedOptions.length === 4) {
+      for (let i = 1; i <= pwLengthIsNum; i++) {
+        if (i % 4 === 1) {
+          const randomNum = getRandomNum(selectedOptions[1].range.length)
+          newPW.push(String(selectedOptions[1].range[randomNum]))
+        } else if (i % 4 === 2) {
+          const randomNum = getRandomNum(selectedOptions[0].range.length)
+          newPW.push(String(selectedOptions[0].range[randomNum]))
+        } else if (i % 4 === 3) {
+          const randomNum = getRandomNum(selectedOptions[2].range.length)
+          newPW.push(String(selectedOptions[2].range[randomNum]))
+        } else {
+          const randomNum = getRandomNum(selectedOptions[3].range.length)
+          newPW.push(String(selectedOptions[3].range[randomNum]))
+        }
+      }
+    }
+    const stringNewPW = String(newPW.join(""))
+    setPassword(stringNewPW)
+  }
   return (
     <div className="App">
       <div className="container">
         <h1>Password Generator</h1>
-        <div className="result-wrapper">
-          <div className="tooltip">
-            <div className="tooltip-angle" />
-          </div>
-          <span className="result">{password}</span>
-          <img
-            src={showReminder === "isCopied" ? clipboardImg : copyImg}
-            alt="reminder"
-          />
-        </div>
+        <Result password={password} reminder={reminder} />
         <Options
           pwLength={pwLength}
           options={options}
           setOptions={setOptions}
         />
 
-        <div className="btn-generate">Generate password</div>
+        <div className="btn-generate" onClick={clickGenerate}>
+          Generate password
+        </div>
       </div>
     </div>
   )
