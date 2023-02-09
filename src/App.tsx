@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
 import { initialOptions } from "./data"
 import Options from "./components/options"
 import "./App.css"
@@ -16,6 +16,7 @@ export default function App() {
   const [options, setOptions] = useState<OptionType[]>(initialOptions)
   const [password, setPassword] = useState("")
   const [showReminder, setShowReminder] = useState("")
+  const pwLength = useRef(null)
 
   return (
     <div className="App">
@@ -31,7 +32,11 @@ export default function App() {
             alt="reminder"
           />
         </div>
-        <Options options={options} setOptions={setOptions} />
+        <Options
+          pwLength={pwLength}
+          options={options}
+          setOptions={setOptions}
+        />
 
         <div className="btn-generate">Generate password</div>
       </div>
