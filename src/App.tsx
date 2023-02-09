@@ -99,7 +99,11 @@ export default function App() {
     <div className="App">
       <div className="container">
         <h1>Password Generator</h1>
-        <Result password={password} reminder={reminder} />
+        <Result
+          password={password}
+          reminder={reminder}
+          setReminder={setReminder}
+        />
         <Options
           pwLength={pwLength}
           options={options}
