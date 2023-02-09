@@ -21,6 +21,24 @@ export default function App() {
     if (!pwLength?.current?.value) return
     const selectedOptions = options.filter((item) => item.isChecked)
     const pwLengthIsNum = Number(pwLength?.current?.value)
+    const invalidCondition = pwLengthIsNum < 4 || pwLengthIsNum > 20
+    // Invalid situation 1 : No parameters be selected
+    if (selectedOptions.length === 0) {
+      setPassword("")
+      setReminder({
+        status: "isInvalid",
+        text: "At least 1 option is required.",
+      })
+      return
+    }
+    // Invalid situation 2 : The password length < 4 or > 20
+    if (invalidCondition) {
+      setReminder({
+        status: "isInvalid",
+        text: "The length should between 4-20.",
+      })
+      return
+    }
     const newPW: (string | number)[] = []
     if (selectedOptions.length === 1) {
       for (let i = 1; i <= pwLengthIsNum; i++) {
@@ -72,6 +90,10 @@ export default function App() {
     }
     const stringNewPW = String(newPW.join(""))
     setPassword(stringNewPW)
+    setReminder({
+      status: "",
+      text: "",
+    })
   }
   return (
     <div className="App">
