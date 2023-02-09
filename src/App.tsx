@@ -1,14 +1,21 @@
-import { useState, useRef } from "react"
+import React, { useState } from "react"
 import { initialOptions } from "./data"
+import Options from "./components/options"
 import "./App.css"
 import clipboardImg from "./assets/clipboard-blue.png"
 import copyImg from "./assets/copy.png"
 
+export interface OptionType {
+  id: string
+  text: string
+  isChecked: boolean
+  range: string[] | number[]
+}
+
 export default function App() {
-  const [options, setOptions] = useState(initialOptions)
+  const [options, setOptions] = useState<OptionType[]>(initialOptions)
   const [password, setPassword] = useState("")
   const [showReminder, setShowReminder] = useState("")
-  const pwLength = useRef(null)
 
   return (
     <div className="App">
@@ -24,24 +31,7 @@ export default function App() {
             alt="reminder"
           />
         </div>
-        <div className="optionsWrapper">
-          <div className="pw-length-wrapper">
-            Password length
-            <input
-              ref={pwLength}
-              type="number"
-              min="4"
-              max="20"
-              defaultValue="8"
-            />
-          </div>
-          {options.map((option) => (
-            <label key={option.id}>
-              {`Include ${option.text}`}
-              <input id={option.id} type="checkbox" />
-            </label>
-          ))}
-        </div>
+        <Options options={options} setOptions={setOptions} />
 
         <div className="btn-generate">Generate password</div>
       </div>
