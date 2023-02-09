@@ -8,7 +8,7 @@ interface OptionProps {
   setOptions: React.Dispatch<React.SetStateAction<OptionType[]>>
 }
 interface Props {
-  pwLength: React.MutableRefObject<null>
+  pwLength: React.RefObject<HTMLInputElement>
   options: OptionType[]
   setOptions: Dispatch<SetStateAction<OptionType[]>>
 }
