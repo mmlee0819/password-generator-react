@@ -13,6 +13,10 @@ export default function Result(props: Props) {
   const { password, reminder, setReminder } = props
 
   const copyTextToClipboard = async () => {
+    if (password === "") {
+      setReminder({ status: "isValid", text: "No password generated yet." })
+      return
+    }
     if ("clipboard" in navigator) {
       try {
         await navigator.clipboard.writeText(password)
